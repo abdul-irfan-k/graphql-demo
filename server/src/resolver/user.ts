@@ -1,4 +1,4 @@
-import { User } from "../model/user";
+import { User } from "../model/user.js";
 
 interface Args {
   id: string;
@@ -26,7 +26,7 @@ export const UserResolver = {
 
     user: async (_: any, args: Args) => {
       try {
-        if (args.id) throw new Error("No id provided");
+        if (!args.id) throw new Error("No id provided");
         const user = await User.findOne({ _id: args.id });
         if (!user) throw new Error("No user fuond");
         return user;
@@ -36,9 +36,13 @@ export const UserResolver = {
     },
   },
 
-  Mutataion: {
+  Mutation: {
+    test:async() => {
+      return "testing"
+    },
     regUser: async (_: any, args: Args) => {
       try {
+        console.log("req user")
         const user = await User.findOne({ email: args.email });
         if (user) throw new Error("User already exist");
 

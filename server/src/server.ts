@@ -1,20 +1,21 @@
-import { gql, ApolloServer } from 'apollo-server'
+import { ApolloServer } from "@apollo/server";
+import { connectDB } from "./db/connect.js";
+import { resolvers } from "./resolver/index.js";
+import { mergedGQLSchema } from "./schema/index.js";
+import { startStandaloneServer } from "@apollo/server/standalone";
 
-const typeDefs = gql`
-  type Query {
-    greeting: String
-   
-  }
-`;
+interface MyContext {
+  token?: String;
+}
 
-const resolvers = {
-    Query: {
-        greeting: () => 'Hello GraphQL world!👋',
-    },
-};
-
-
-const server = new ApolloServer({ typeDefs, resolvers });
-server
-    .listen({ port: 9000 })
-    .then(serverInfo => console.log(`Server running at ${serverInfo.url}`));
+connectDB(() => {
+  const server = new ApolloServer<MyContext>({
+    typeDefs: mergedGQLSchema,
+    resolvers,
+  });
+  startStandaloneServer(server, { listen: { port: 9000 } }).then(
+    (serverInfo) => {
+      console.log("started "+serverInfo.url);
+    }
+  );
+});

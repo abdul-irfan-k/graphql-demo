@@ -19,11 +19,12 @@ export const userGQLSchema = buildSchema(`
     users:[User!]!
   }
 
-  type Mutataion {
+  type Mutation {
     regUser(username: String!, email: String!, password: String!): User!
     loginUser(email: String!, password: String!): User!
     updateUser(id: String!, username: String, email: String, password: String): User!
     deleteUser(id: String!): deleteResponse!
+    test:String
   }
 
   type deleteResponse {
