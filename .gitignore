@@ -1,0 +1,12 @@
+node_modules/
+
+# Dependency directories
+/*/node_modules/
+/dist/
+/*.js
+/*.d.ts
+
+
+# Compiled output
+dist/
+
